@@ -73,7 +73,6 @@ nav a { color: var(--ink); text-decoration: underline; text-underline-offset: 3p
 /* Susunan instrumen: ledger kiri, panel baca kanan. */
 .bench { display: grid; grid-template-columns: 1fr; gap: 1.25rem; margin-bottom: 1.25rem; }
 @media (min-width: 56rem) { .bench { grid-template-columns: 1fr 1.1fr; } }
-@media (min-width: 40rem) and (max-width: 55.99rem) { .bench { grid-template-columns: 1fr 1fr; } }
 
 .ledger, .readout, .how, .log { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-panel); padding: 1.4rem; }
 .ledger h2, .readout h2, .how h2, .log h2 { margin: 0 0 1rem; font-size: 1.3rem; }
@@ -161,17 +160,28 @@ form[data-form] button[type="submit"]:disabled { opacity: .65; cursor: wait; }
 .ans .big { font-size: 1.6rem; font-weight: 800; font-variant-numeric: tabular-nums; }
 pre.raw { background: var(--code); border-radius: var(--radius-ctl); padding: .7rem; overflow-x: auto; font-size: .8rem; }
 
-/* Header ramping di HP: tidak lengket, satu baris padat, nav bisa geser. */
+/* Header ramping di HP: tetap nempel tapi padat dua baris tipis. */
 @media (max-width: 45rem) {
-  .topbar { position: static; }
-  .topbar-in { gap: .5rem 1rem; padding: .5rem 1rem; }
-  .brand { font-size: 1rem; }
-  nav { gap: .25rem; overflow-x: auto; max-width: 100%; }
-  nav a { min-height: 36px; font-size: .9rem; white-space: nowrap; }
-  .status { font-size: .78rem; }
+  .topbar-in { flex-wrap: nowrap; gap: .5rem; padding: .45rem .8rem; }
+  .brand { font-size: .95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #theme { min-height: 36px; padding: .3rem .7rem; font-size: .8rem; flex: none; }
+  .status { margin: 0; flex: none; font-size: .78rem; }
+  .status #modeText { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  nav { order: 3; flex-basis: 100%; gap: 0; overflow-x: auto; max-width: 100%; }
+  nav a { min-height: 32px; font-size: .85rem; padding: .2rem .5rem; white-space: nowrap; }
   .intro { padding: 1.2rem 0 .8rem; }
   .intro h1 { font-size: 1.5rem; }
   .ledger, .readout, .how, .log { padding: 1rem; }
+  /* Tabel hasil menumpuk per baris: tanpa geser samping. */
+  table.dist, table.dist tbody { display: block; }
+  table.dist { min-width: 0; }
+  table.dist thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  table.dist tr { display: block; border-top: 1px solid var(--line); padding: .55rem 0; }
+  table.dist td { display: block; border: none; padding: .12rem 0; }
+  table.dist td .track { min-width: 0; }
+  table.dist td.num { text-align: left; }
+  table.dist td:nth-child(3)::before { content: "Relatif: "; color: var(--muted); font-size: .8rem; }
+  table.dist td:nth-child(4)::before { content: "Mutlak: "; color: var(--muted); font-size: .8rem; }
 }
 /* FAQ: details bawaan peramban, keyboard siap tanpa JS. */
 .faq details { border-top: 1px solid var(--line); }
