@@ -1,14 +1,18 @@
 /* Ruang Nilai Jev. Alasan tiap keputusan ada di DESIGN.md. */
 :root {
-  --paper: #f7f3ea;
-  --card: #fffdf7;
-  --ink: #1e2430;
-  --muted: #5a6172;
-  --line: #ddd5c2;
-  --accent: #0f6b5c;
-  --accent-ink: #ffffff;
-  --brick: #a63a2b;
-  --ochre: #8a5e00;
+  --paper: #12161d;
+  --card: #1b212b;
+  --ink: #ede8da;
+  --muted: #a7b0bf;
+  --line: #333c49;
+  --accent: #5ad2b3;
+  --accent-ink: #0d1a16;
+  --brick: #e8896f;
+  --ochre: #d9a93c;
+  --track: #2c3441;
+  --dim: #8b94a3;
+  --code: #262e3a;
+  --field: #0e1319;
   --radius-panel: 10px;
   --radius-ctl: 6px;
 }
@@ -24,7 +28,7 @@ body {
 h1, h2, .brand { font-family: Georgia, "Times New Roman", serif; }
 .wrap { max-width: 62rem; margin: 0 auto; padding: 0 1.25rem; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-.skip { position: absolute; left: 1rem; top: -4rem; background: var(--ink); color: #fff; padding: .6rem 1rem; border-radius: var(--radius-ctl); z-index: 20; }
+.skip { position: absolute; left: 1rem; top: -4rem; background: var(--accent); color: var(--accent-ink); padding: .6rem 1rem; border-radius: var(--radius-ctl); z-index: 20; font-weight: 700; }
 .skip:focus { top: 1rem; }
 :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 
@@ -56,11 +60,11 @@ nav a { color: var(--ink); text-decoration: underline; text-underline-offset: 3p
 .ledger, .readout, .how, .log { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-panel); padding: 1.4rem; }
 .ledger h2, .readout h2, .how h2, .log h2 { margin: 0 0 1rem; font-size: 1.3rem; }
 /* Elevasi hanya di panel hasil: itu jawaban yang dibaca (R-12). */
-.readout { box-shadow: 0 2px 0 var(--line), 0 14px 28px -22px rgba(30, 36, 48, .55); }
+.readout { box-shadow: 0 2px 0 var(--line), 0 14px 28px -22px rgba(0, 0, 0, .8); }
 
 label { display: block; font-weight: 700; font-size: .95rem; margin: 1rem 0 .35rem; }
 label:first-of-type { margin-top: 0; }
-textarea { width: 100%; font: inherit; color: var(--ink); background: #fff; border: 1px solid var(--line); border-radius: var(--radius-ctl); padding: .7rem; resize: vertical; }
+textarea { width: 100%; font: inherit; color: var(--ink); background: var(--field); border: 1px solid var(--line); border-radius: var(--radius-ctl); padding: .7rem; resize: vertical; }
 textarea:focus { border-color: var(--accent); }
 .field-note, .muted { color: var(--muted); font-size: .88rem; }
 #go { width: 100%; margin-top: 1rem; min-height: 48px; font: inherit; font-weight: 700; font-size: 1rem; color: var(--accent-ink); background: var(--accent); border: 1px solid var(--accent); border-radius: var(--radius-ctl); cursor: pointer; }
@@ -90,7 +94,7 @@ table.dist { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size
 table.dist caption { text-align: left; font-weight: 700; padding-bottom: .4rem; }
 table.dist th, table.dist td { text-align: left; padding: .45rem .25rem; border-top: 1px solid var(--line); vertical-align: middle; }
 table.dist td.num { font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
-.track { height: .6rem; background: #ece5d3; border-radius: 3px; overflow: hidden; min-width: 4rem; }
+.track { height: .6rem; background: var(--track); border-radius: 3px; overflow: hidden; min-width: 4rem; }
 .fill { height: 100%; width: 0; background: var(--accent); border-radius: 3px; transition: width .8s ease; }
 .fill.is-brick { background: var(--brick); }
 .fill.is-ochre { background: var(--ochre); }
@@ -103,7 +107,7 @@ table.dist td.num { font-variant-numeric: tabular-nums; text-align: right; white
 @media (min-width: 46rem) { .how dl > div { grid-template-columns: 9rem 1fr; gap: 1rem; } }
 .how dt { font-weight: 800; }
 .how dd { margin: 0; }
-code { font-size: .85em; background: #efe9d8; padding: .1em .4em; border-radius: 4px; }
+code { font-size: .85em; background: var(--code); padding: .1em .4em; border-radius: 4px; }
 
 /* Ledger riwayat: kolom sesuai keputusan (pertanyaan, jawaban, vonis, keyakinan). */
 .log { margin-bottom: 2rem; overflow-x: auto; }
@@ -127,7 +131,7 @@ form[data-form] button[type="submit"]:hover { filter: brightness(1.08); }
 form[data-form] button[type="submit"]:disabled { opacity: .65; cursor: wait; }
 .bench.wide { grid-template-columns: 1fr; }
 @media (min-width: 56rem) { .bench.wide { grid-template-columns: 1.1fr .9fr; } }
-.policy { border: 2px solid var(--ink); border-radius: var(--radius-ctl); padding: .8rem 1rem; margin-top: 1rem; background: #fff; }
+.policy { border: 2px solid var(--ink); border-radius: var(--radius-ctl); padding: .8rem 1rem; margin-top: 1rem; background: var(--card); }
 .policy.allow { border-color: var(--accent); }
 .policy.ask { border-color: var(--ochre); }
 .policy.deny { border-color: var(--brick); }
@@ -136,9 +140,27 @@ form[data-form] button[type="submit"]:disabled { opacity: .65; cursor: wait; }
 .ans:first-child { border-top: none; }
 .ans h3 { margin: 0 0 .3rem; font-size: 1rem; font-family: inherit; }
 .ans .big { font-size: 1.6rem; font-weight: 800; font-variant-numeric: tabular-nums; }
-pre.raw { background: #efe9d8; border-radius: var(--radius-ctl); padding: .7rem; overflow-x: auto; font-size: .8rem; }
+pre.raw { background: var(--code); border-radius: var(--radius-ctl); padding: .7rem; overflow-x: auto; font-size: .8rem; }
 
-/* Baris pilihan dinamis: huruf, input, tombol hapus. */
+/* Header ramping di HP: tidak lengket, satu baris padat, nav bisa geser. */
+@media (max-width: 45rem) {
+  .topbar { position: static; }
+  .topbar-in { gap: .5rem 1rem; padding: .5rem 1rem; }
+  .brand { font-size: 1rem; }
+  nav { gap: .25rem; overflow-x: auto; max-width: 100%; }
+  nav a { min-height: 36px; font-size: .9rem; white-space: nowrap; }
+  .status { font-size: .78rem; }
+  .intro { padding: 1.2rem 0 .8rem; }
+  .intro h1 { font-size: 1.5rem; }
+  .ledger, .readout, .how, .log { padding: 1rem; }
+}
+/* FAQ: details bawaan peramban, keyboard siap tanpa JS. */
+.faq details { border-top: 1px solid var(--line); }
+.faq details:last-of-type { border-bottom: 1px solid var(--line); }
+.faq summary { cursor: pointer; font-weight: 700; padding: .8rem .25rem; min-height: 44px; list-style-position: inside; }
+.faq summary:hover { color: var(--accent); }
+.faq details p { margin: 0 0 1rem .25rem; }
+.faq { margin-bottom: 1.25rem; }
 .opts-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin: 1rem 0 .35rem; }
 .opts-head span { font-weight: 700; font-size: .95rem; }
 #add { font: inherit; font-size: .88rem; min-height: 44px; padding: .5rem 1rem; background: transparent; border: 1px solid var(--line); border-radius: var(--radius-ctl); cursor: pointer; color: var(--ink); }
@@ -146,7 +168,7 @@ pre.raw { background: #efe9d8; border-radius: var(--radius-ctl); padding: .7rem;
 #add:disabled { opacity: .5; cursor: not-allowed; }
 .opt-row { display: grid; grid-template-columns: 2rem 1fr auto; gap: .5rem; align-items: center; margin-bottom: .5rem; }
 .opt-letter { width: 2rem; height: 2rem; display: grid; place-items: center; font-weight: 800; border: 2px solid var(--ink); border-radius: var(--radius-ctl); }
-.opt-row input { font: inherit; color: var(--ink); background: #fff; border: 1px solid var(--line); border-radius: var(--radius-ctl); padding: .6rem; min-height: 44px; width: 100%; min-width: 0; }
+.opt-row input { font: inherit; color: var(--ink); background: var(--field); border: 1px solid var(--line); border-radius: var(--radius-ctl); padding: .6rem; min-height: 44px; width: 100%; min-width: 0; }
 .opt-row input:focus { border-color: var(--accent); }
 .opt-del { font: inherit; font-size: .85rem; min-height: 44px; min-width: 44px; padding: .5rem .7rem; background: transparent; border: 1px solid var(--line); border-radius: var(--radius-ctl); cursor: pointer; color: var(--ink); }
 .opt-del:hover:not(:disabled) { border-color: var(--brick); color: var(--brick); }
@@ -155,4 +177,4 @@ pre.raw { background: #efe9d8; border-radius: var(--radius-ctl); padding: .7rem;
 .win-letter { display: inline-grid; place-items: center; width: 2.2rem; height: 2.2rem; border: 2px solid var(--accent); color: var(--accent); border-radius: var(--radius-ctl); font-weight: 800; vertical-align: middle; }
 #winner { font-size: clamp(1.15rem, 1rem + 1.5vw, 1.4rem); font-weight: 700; margin: 0; }
 .win-pct { font-variant-numeric: tabular-nums; color: var(--accent); font-weight: 800; }
-.fill.is-dim { background: #b9b09a; }
+.fill.is-dim { background: var(--dim); }

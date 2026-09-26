@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Soal Pilihan Ganda: pilihan mana yang paling tepat</title>
 <meta name="description" content="Guru menulis pernyataan dan pilihan jawaban. Jev menilai probabilitas tiap pilihan dan menunjuk yang paling tepat." />
-<meta name="theme-color" content="#f7f3ea" />
+<meta name="theme-color" content="#12161d" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230f6b5c'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='36' font-weight='bold' fill='white' text-anchor='middle'%3EJ%3C/text%3E%3C/svg%3E" />
 <link rel="stylesheet" href="style.css" />
 </head>
@@ -17,7 +17,7 @@
     <p class="brand">Soal <span>Pilihan Ganda</span></p>
     <nav aria-label="Navigasi halaman">
       <a href="#uji">Soal</a>
-      <a href="#pola">Cara nilai</a>
+      <a href="#faq">FAQ</a>
       <a href="#riwayat">Catatan</a>
     </nav>
     <p class="status"><span id="dot" class="dot" aria-hidden="true"></span><span id="modeText">Memeriksa sambungan…</span></p>
@@ -28,14 +28,7 @@
 <main class="wrap">
   <section class="intro">
     <h1>Tulis soal, Jev menunjuk jawaban paling tepat.</h1>
-    <p>Seperti guru membuat soal pilihan ganda: tulis pernyataan, tambah pilihan jawaban
-      sebanyak yang perlu, lalu tekan nilai. Tiap pilihan dapat probabilitas, yang tertinggi
-      ditunjuk sebagai jawaban paling tepat.</p>
-    <ul class="features">
-      <li>2 sampai 8 pilihan dinamis</li>
-      <li>Dua angka per pilihan: relatif dan mutlak</li>
-      <li>Riwayat tersimpan di peramban</li>
-    </ul>
+    <p>Pernyataan plus pilihan jawaban dinamis. Tiap opsi dapat dua angka: porsi relatif dan peluang benar mutlak.</p>
   </section>
 
   <div class="bench">
@@ -89,29 +82,32 @@
     </section>
   </div>
 
-  <section class="how" id="pola" aria-labelledby="pola-h">
-    <h2 id="pola-h">Cara penilaian bekerja</h2>
-    <dl>
-      <div>
-        <dt>Soal jadi keadaan</dt>
-        <dd>Pernyataan dikirim sebagai keadaan. Pilihan jawaban dikirim sebagai daftar opsi pertanyaan bertipe choice.</dd>
-      </div>
-      <div>
-        <dt>Probabilitas per pilihan</dt>
-        <dd>Jev memberi angka tiap opsi yang jumlahnya 100 persen. Opsi tertinggi adalah jawaban paling tepat menurut model.</dd>
-      </div>
-      <div>
-        <dt>Dua angka per pilihan</dt>
-        <dd>Relatif: porsi pilihan dari total 100 persen, selalu ada satu pemenang. Mutlak: peluang pilihan itu benar bila dinilai sendiri, tidak dibagi dengan opsi lain. Dua pilihan bisa sama-sama 80 persen mutlak, tapi porsi relatifnya tetap terbagi.</dd>
-      </div>
-      <div>
-        <dt>Keyakinan</dt>
-        <dd>Angka keyakinan ikut ditampilkan. Bila angkanya rendah, arti sebarannya merata dan soal layak ditinjau ulang.</dd>
-      </div>
-    </dl>
-    <p class="muted">Teknis: server mengirim soal dan opsi ke
-      <code>https://opencode.ai/zen/v1/systemone</code> (model <code>jev-1.13-free</code>).
-      Kunci API tinggal di <code>.env</code> dan tidak pernah ke peramban.</p>
+  <section class="how faq" id="faq" aria-labelledby="faq-h">
+    <h2 id="faq-h">Pertanyaan yang sering ditanyakan</h2>
+    <details>
+      <summary>Apa beda angka relatif dan mutlak?</summary>
+      <p>Relatif adalah porsi pilihan dari total 100 persen, jadi selalu ada satu pemenang. Mutlak adalah peluang pilihan itu benar bila dinilai sendiri, tanpa dibagi opsi lain. Dua pilihan bisa sama-sama 70 persen mutlak sementara porsi relatifnya terbagi.</p>
+    </details>
+    <details>
+      <summary>Kenapa pemenang belum tentu 100 persen benar?</summary>
+      <p>Karena keduanya diukur dengan pertanyaan berbeda ke model. Choice memaksa satu pemenang relatif, sedangkan noul menilai tiap opsi apa adanya. Keduanya jujur ditampilkan agar kamu bisa menimbang sendiri.</p>
+    </details>
+    <details>
+      <summary>Bagaimana cara penilaiannya bekerja?</summary>
+      <p>Pernyataan dikirim sebagai keadaan, pilihan dikirim sebagai opsi satu pertanyaan choice, plus satu pertanyaan ya-tidak per pilihan. Jev mengembalikan probabilitas tiap opsi yang dipakai kode untuk mengurutkan dan menandai pemenang.</p>
+    </details>
+    <details>
+      <summary>Apakah perlu kunci API?</summary>
+      <p>Tidak wajib. Tanpa kunci, hasil memakai sebaran demo dan berlabel demo. Dengan kunci OpenCode Zen gratis (model jev-1.13-free), hasil memakai model asli dan berlabel live beserta pemakaian tokennya.</p>
+    </details>
+    <details>
+      <summary>Apakah soal saya disimpan di server?</summary>
+      <p>Tidak. Server hanya meneruskan ke model dan mengembalikan hasil. Riwayat hanya tersimpan di perambanmu sendiri dan bisa dihapus kapan saja. Kunci API tidak pernah dikirim ke peramban.</p>
+    </details>
+    <details>
+      <summary>Berapa biayanya?</summary>
+      <p>Model yang dipakai gratis, hosting demo berjalan di paket gratis Vercel. Pemakaian token tiap penilaian live ditampilkan di catatan hasil.</p>
+    </details>
   </section>
 
   <section class="log" id="riwayat" aria-labelledby="riw-h">
