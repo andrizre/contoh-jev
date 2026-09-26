@@ -5,7 +5,10 @@ var $ = function (id) { return document.getElementById(id); };
 var qEl = $('q'), optsEl = $('opts'), addBtn = $('add');
 var form = $('form'), goBtn = $('go'), errEl = $('err');
 var emptyEl = $('empty'), loadEl = $('loading'), resEl = $('result');
-var winnerEl = $('winner'), confEl = $('conf'), barsEl = $('bars'), noteEl = $('note');
+var winnerEl = $('winner'), confEl = $('conf'), cardsEl = $('cards'), noteEl = $('note');
+var pasteEl = $('paste'), splitBtn = $('split'), modeBadge2 = $('modeBadge2');
+var copyBtn = $('copy'), dlJsonBtn = $('dl-json'), dlCsvBtn = $('dl-csv'), histMsg = $('hist-msg');
+var lastResult = null;
 var histEl = $('hist'), histTable = $('hist-table'), histEmpty = $('hist-empty');
 var dotEl = $('dot'), modeText = $('modeText');
 var themeBtn = $('theme'), metaTheme = document.querySelector('meta[name="theme-color"]');
@@ -37,9 +40,12 @@ try { hist = JSON.parse(localStorage.getItem('jev_history') || '[]'); } catch (e
 fetch('/api/health').then(function (r) { return r.json(); }).then(function (h) {
   var live = h && h.mode === 'live-ready';
   dotEl.classList.toggle('live', live);
-  modeText.textContent = live ? 'Live: Jev 1.13-free' : 'Demo lokal: isi kunci API untuk live';
+  var txt = live ? 'Live: Jev 1.13-free' : 'Demo lokal: isi kunci API untuk live';
+  modeText.textContent = txt;
+  modeBadge2.textContent = live ? 'Live (model asli)' : 'Demo (sebaran lokal)';
 }).catch(function () {
   modeText.textContent = 'Demo lokal: isi kunci API untuk live';
+  modeBadge2.textContent = 'Demo (sebaran lokal)';
 });
 
 function esc(s) {
@@ -92,6 +98,17 @@ addBtn.addEventListener('click', function () {
   rows[rows.length - 1].querySelector('input').focus();
 });
 addOption('Tokyo'); addOption('Osaka'); addOption('');
+
+/* Tempel banyak pilihan: pecah per baris jadi opsi. */
+splitBtn.addEventListener('click', function () {
+  var lines = pasteEl.value.split('\n').map(function (s) { return s.trim(); }).filter(function (s) { return s; });
+  if (!lines.length) { pasteEl.focus(); return; }
+  optsEl.innerHTML = '';
+  for (var i = 0; i < Math.min(lines.length, MAX_OPTS); i++) addOption(lines[i]);
+  while (optsEl.querySelectorAll('.opt-row').length < MIN_OPTS) addOption('');
+  pasteEl.value = '';
+  qEl.focus();
+});
 
 var chips = document.querySelectorAll('[data-ex]');
 for (var c = 0; c < chips.length; c++) {
@@ -199,6 +216,8 @@ form.addEventListener('submit', function (ev) {
   });
 });
 
+function mutlakClass(v) { return v >= 0.7 ? '' : (v >= 0.4 ? 'is-ochre' : 'is-brick'); }
+
 function showResult(d, ids, texts) {
   resEl.hidden = false;
   var a = d.answers.jawaban;
@@ -210,25 +229,25 @@ function showResult(d, ids, texts) {
   winnerEl.innerHTML = '<span class="win-letter">' + esc(win) + '</span> ' + esc(wi >= 0 ? texts[wi] : win) +
     ' <span class="win-pct">' + pct(p) + ' relatif' + (winAbs ? ', ' + winAbs + ' mutlak' : '') + '</span>';
   confEl.textContent = 'keyakinan: ' + pct(a.confidence || 0) + ', model: ' + (d.model || '-');
-  barsEl.innerHTML = '';
+  cardsEl.innerHTML = '';
+  var rows = [];
   for (var i = 0; i < order.length; i++) {
     var id = order[i], v = a.probabilities[id] || 0;
     var ti = ids.indexOf(id);
     var akey = 'benar_' + String(id).toLowerCase();
     var av = d.answers[akey] ? d.answers[akey].noul : null;
-    var tag = (id === win) ? ' (pemenang)' : (av !== null && av >= 0.5 ? ' (mungkin benar)' : '');
-    var tr = document.createElement('tr');
-    tr.innerHTML = '<td><strong>' + esc(id) + '</strong> ' + esc(ti >= 0 ? texts[ti] : '') + tag + '</td>' +
-      '<td><div class="track"><div class="fill' + (id === win ? '' : ' is-dim') + '"></div></div></td>' +
-      '<td class="num">' + pct(v) + '</td>' +
-      '<td class="num">' + (av === null ? '-' : pct(av)) + '</td>';
-    barsEl.appendChild(tr);
-    (function (row, val) {
-      requestAnimationFrame(function () {
-        requestAnimationFrame(function () { row.querySelector('.fill').style.width = (val * 100) + '%'; });
-      });
-    })(tr, v);
+    var isWin = id === win;
+    var tag = isWin ? '<span class="badge-win">Pemenang</span>' : (av !== null && av >= 0.5 ? '<span class="badge-maybe">Mungkin benar</span>' : '');
+    var card = document.createElement('div');
+    card.className = 'opt-card' + (isWin ? ' win' : '');
+    card.innerHTML = '<p class="opt-head"><span class="opt-letter">' + esc(id) + '</span> ' +
+      '<strong>' + esc(ti >= 0 ? texts[ti] : '') + '</strong> ' + tag + '</p>' +
+      '<div class="bar-row"><span>Relatif</span><div class="track"><div class="fill' + (isWin ? '' : ' is-dim') + '" style="width:' + Math.round(v * 100) + '%"></div></div><b>' + pct(v) + '</b></div>' +
+      '<div class="bar-row"><span>Mutlak</span><div class="track"><div class="fill ' + mutlakClass(av || 0) + '" style="width:' + Math.round((av || 0) * 100) + '%"></div></div><b>' + (av === null ? '-' : pct(av)) + '</b></div>';
+    cardsEl.appendChild(card);
+    rows.push({ opsi: id, teks: ti >= 0 ? texts[ti] : '', relatif: +(v).toFixed(3), mutlak: av === null ? null : +av.toFixed(3), pemenang: isWin });
   }
+  lastResult = { soal: qEl.value.trim(), mode: d.mode, model: d.model || '', hasil: rows };
   noteEl.textContent = d.mode === 'demo'
     ? 'Catatan: ' + (d.note || 'hasil demo lokal.')
     : 'Penilaian live via OpenCode Zen (' + (d.model || '') + ').' +
@@ -236,3 +255,46 @@ function showResult(d, ids, texts) {
 }
 
 function showErr(m) { errEl.textContent = m; errEl.hidden = false; }
+
+/* Ekspor: salin hasil terakhir, unduh riwayat JSON/CSV. */
+function say(m) { histMsg.textContent = m; }
+copyBtn.addEventListener('click', function () {
+  if (!lastResult) { say('Belum ada hasil untuk disalin. Nilai soal dulu.'); return; }
+  var lines = ['Soal: ' + lastResult.soal, 'Mode: ' + lastResult.mode];
+  for (var i = 0; i < lastResult.hasil.length; i++) {
+    var r = lastResult.hasil[i];
+    lines.push((r.pemenang ? '* ' : '- ') + r.opsi + ' ' + r.teks + ': relatif ' + Math.round(r.relatif * 100) + '%, mutlak ' + (r.mutlak === null ? '-' : Math.round(r.mutlak * 100) + '%'));
+  }
+  var txt = lines.join('\n');
+  function done() { say('Hasil terakhir disalin ke clipboard.'); }
+  function fail() { say('Gagal menyalin. Browser ini tidak mengizinkan clipboard.'); }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(txt).then(done, fail);
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = txt; document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) { fail(); }
+    ta.remove();
+  }
+});
+function download(name, text, type) {
+  if (!hist.length) { say('Riwayat kosong, tidak ada yang diunduh.'); return; }
+  var blob = new Blob([text], { type: type });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click();
+  setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  say('Berkas ' + name + ' diunduh.');
+}
+dlJsonBtn.addEventListener('click', function () {
+  download('riwayat-jev.json', JSON.stringify(hist, null, 2), 'application/json');
+});
+dlCsvBtn.addEventListener('click', function () {
+  function cell(s) { return '"' + String(s).replace(/"/g, '""') + '"'; }
+  var out = ['pemenang,relatif,mutlak,soal,sumber'];
+  for (var i = 0; i < hist.length; i++) {
+    var h = hist[i];
+    out.push([cell(h.win + ' ' + h.winText), cell(h.tepat), cell(h.mutlak || ''), cell(h.soal), cell(h.mode)].join(','));
+  }
+  download('riwayat-jev.csv', out.join('\n'), 'text/csv');
+});

@@ -207,3 +207,25 @@ pre.raw { background: var(--code); border-radius: var(--radius-ctl); padding: .7
 #winner { font-size: clamp(1.15rem, 1rem + 1.5vw, 1.4rem); font-weight: 700; margin: 0; }
 .win-pct { font-variant-numeric: tabular-nums; color: var(--accent); font-weight: 800; }
 .fill.is-dim { background: var(--dim); }
+
+/* Kartu hasil per opsi: dua bar berlabel, pemenang berbingkai aksen. */
+.opt-card { border: 1px solid var(--line); border-radius: var(--radius-ctl); padding: .8rem 1rem; margin-top: .7rem; background: var(--card); }
+.opt-card.win { border: 2px solid var(--accent); }
+.opt-head { margin: 0 0 .4rem; display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
+.badge-win, .badge-maybe { font-size: .75rem; font-weight: 800; padding: .15rem .6rem; border-radius: 999px; border: 1px solid var(--accent); color: var(--accent); }
+.badge-maybe { border-color: var(--ochre); color: var(--ochre); }
+.bar-row { display: grid; grid-template-columns: 4.2rem 1fr 3.2rem; gap: .6rem; align-items: center; font-size: .88rem; margin: .3rem 0; }
+.bar-row b { font-variant-numeric: tabular-nums; text-align: right; }
+.fill.is-ochre { background: var(--ochre); }
+.fill.is-brick { background: var(--brick); }
+.helper { margin-top: .8rem; }
+.helper summary { cursor: pointer; font-weight: 700; min-height: 44px; display: inline-flex; align-items: center; }
+.helper summary:hover { color: var(--accent); }
+.helper p { margin: .2rem 0 .5rem; }
+/* Baris status mode di dekat tombol nilai + tombol pecah pilihan. */
+.mode-line { font-size: .85rem; color: var(--muted); margin: .6rem 0 0; }
+#split { width: 100%; margin-top: .6rem; min-height: 44px; font: inherit; font-size: .92rem; background: transparent; border: 1px solid var(--line); border-radius: var(--radius-ctl); color: var(--ink); cursor: pointer; }
+#split:hover { border-color: var(--accent); color: var(--accent); }
+.hist-actions { display: flex; gap: .5rem; flex-wrap: wrap; }
+.hist-actions button { font: inherit; font-size: .85rem; min-height: 44px; padding: .5rem .9rem; background: transparent; border: 1px solid var(--line); border-radius: var(--radius-ctl); color: var(--ink); cursor: pointer; }
+.hist-actions button:hover { border-color: var(--accent); color: var(--accent); }

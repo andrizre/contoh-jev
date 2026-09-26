@@ -51,7 +51,11 @@ try {
         </div>
         <div id="opts" role="group" aria-labelledby="opts-label"></div>
         <p class="field-note">Minimal 2, maksimal 8 pilihan. Tiap pilihan maksimal 200 karakter.</p>
+        <label for="paste">Atau tempel banyak pilihan sekaligus (satu per baris)</label>
+        <textarea id="paste" rows="3" maxlength="2000" placeholder="Contoh:&#10;Tokyo&#10;Osaka&#10;Kyoto"></textarea>
+        <button type="button" id="split">Pecah jadi pilihan</button>
         <button type="submit" id="go">Nilai pilihan</button>
+        <p class="mode-line">Status: <strong id="modeBadge2">memeriksa…</strong></p>
         <p id="err" class="err" role="alert" hidden></p>
       </form>
       <div class="examples">
@@ -60,6 +64,8 @@ try {
           <button type="button" data-ex="Apa ibu kota Jepang?|Tokyo|Osaka|Kyoto|Beijing">Ibu kota</button>
           <button type="button" data-ex="2 + 2 × 2 = ?|4|6|8">Hitungan</button>
           <button type="button" data-ex="Saya lapar, paling tepat apa?|makan|minum|tidur|lari">Lapar</button>
+          <button type="button" data-ex="Planet terdekat dari Matahari?|Merkurius|Venus|Mars">Planet</button>
+          <button type="button" data-ex="Paus adalah mamalia. Paus bernapas dengan?|paru-paru|insang|kulit">Logika</button>
         </div>
       </div>
     </section>
@@ -78,13 +84,11 @@ try {
         <p class="meter-zero">Jawaban paling tepat</p>
         <p id="winner">menunggu</p>
         <p id="conf" class="muted">keyakinan: belum dihitung</p>
-        <div class="table-scroll">
-        <table class="dist">
-          <caption>Relatif (porsi dari 100 persen) dan mutlak (peluang benar sendiri)</caption>
-          <thead><tr><th scope="col">Pilihan</th><th scope="col">Relatif</th><th scope="col">Persen</th><th scope="col">Mutlak</th></tr></thead>
-          <tbody id="bars"></tbody>
-        </table>
-        </div>
+        <div id="cards"></div>
+        <details class="helper">
+          <summary>Apa arti dua bar ini?</summary>
+          <p><strong>Relatif</strong>: porsi opsi bila semua jawaban dibandingkan sekaligus, total 100 persen. <strong>Mutlak</strong>: peluang benar opsi itu bila dinilai sendiri, tanpa membandingkan.</p>
+        </details>
         <p id="note" class="muted"></p>
       </div>
     </section>
@@ -121,8 +125,14 @@ try {
   <section class="log" id="riwayat" aria-labelledby="riw-h">
     <div class="log-head">
       <h2 id="riw-h">Catatan penilaian</h2>
-      <button type="button" id="clear">Hapus catatan</button>
+      <div class="hist-actions">
+        <button type="button" id="copy">Salin hasil terakhir</button>
+        <button type="button" id="dl-json">Unduh JSON</button>
+        <button type="button" id="dl-csv">Unduh CSV</button>
+        <button type="button" id="clear">Hapus catatan</button>
+      </div>
     </div>
+    <p id="hist-msg" class="muted" role="status"></p>
     <div>
       <p id="hist-empty" class="muted">Kosong. Setiap penilaian tercatat di sini, hanya di peramban ini.</p>
       <table id="hist-table" hidden>
