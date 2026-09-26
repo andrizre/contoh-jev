@@ -8,6 +8,27 @@ var emptyEl = $('empty'), loadEl = $('loading'), resEl = $('result');
 var winnerEl = $('winner'), confEl = $('conf'), barsEl = $('bars'), noteEl = $('note');
 var histEl = $('hist'), histTable = $('hist-table'), histEmpty = $('hist-empty');
 var dotEl = $('dot'), modeText = $('modeText');
+var themeBtn = $('theme'), metaTheme = document.querySelector('meta[name="theme-color"]');
+
+/* Tema: default ikut OS, pilihan user tersimpan dan menang. */
+function paintTheme(t) {
+  var light = t === 'light';
+  document.documentElement.setAttribute('data-theme', light ? 'light' : 'dark');
+  themeBtn.textContent = light ? 'Mode gelap' : 'Mode terang';
+  themeBtn.setAttribute('aria-pressed', String(!light));
+  if (metaTheme) metaTheme.setAttribute('content', light ? '#f7f3ea' : '#12161d');
+}
+(function initTheme() {
+  var t = 'dark';
+  try { t = localStorage.getItem('sj_theme') || document.documentElement.getAttribute('data-theme') || 'dark'; }
+  catch (e) { /* abaikan */ }
+  paintTheme(t);
+})();
+themeBtn.addEventListener('click', function () {
+  var next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+  try { localStorage.setItem('sj_theme', next); } catch (e) { /* abaikan */ }
+  paintTheme(next);
+});
 
 var MAX_OPTS = 8, MIN_OPTS = 2;
 var hist = [];

@@ -8,6 +8,13 @@
 <meta name="theme-color" content="#12161d" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230f6b5c'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='36' font-weight='bold' fill='white' text-anchor='middle'%3EJ%3C/text%3E%3C/svg%3E" />
 <link rel="stylesheet" href="style.css" />
+<script>
+try {
+  var t = localStorage.getItem('sj_theme');
+  if (!t) t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+} catch (e) { document.documentElement.setAttribute('data-theme', 'dark'); }
+</script>
 </head>
 <body>
 <a class="skip" href="#uji">Lewati ke alat penilai</a>
@@ -21,6 +28,7 @@
       <a href="#riwayat">Catatan</a>
     </nav>
     <p class="status"><span id="dot" class="dot" aria-hidden="true"></span><span id="modeText">Memeriksa sambungan…</span></p>
+    <button type="button" id="theme" aria-pressed="false">Mode terang</button>
   </div>
   <div class="rule" aria-hidden="true"></div>
 </header>

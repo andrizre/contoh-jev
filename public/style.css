@@ -13,8 +13,26 @@
   --dim: #8b94a3;
   --code: #262e3a;
   --field: #0e1319;
+  --shadow: rgba(0, 0, 0, .8);
   --radius-panel: 10px;
   --radius-ctl: 6px;
+}
+/* Tema terang: palet kertas sebelumnya, sudah lolos AA saat dipakai. */
+[data-theme="light"] {
+  --paper: #f7f3ea;
+  --card: #fffdf7;
+  --ink: #1e2430;
+  --muted: #5a6172;
+  --line: #ddd5c2;
+  --accent: #0f6b5c;
+  --accent-ink: #ffffff;
+  --brick: #a63a2b;
+  --ochre: #8a5e00;
+  --track: #ece5d3;
+  --dim: #b9b09a;
+  --code: #efe9d8;
+  --field: #ffffff;
+  --shadow: rgba(30, 36, 48, .55);
 }
 * { box-sizing: border-box; }
 html { font-size: 100%; }
@@ -60,7 +78,7 @@ nav a { color: var(--ink); text-decoration: underline; text-underline-offset: 3p
 .ledger, .readout, .how, .log { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-panel); padding: 1.4rem; }
 .ledger h2, .readout h2, .how h2, .log h2 { margin: 0 0 1rem; font-size: 1.3rem; }
 /* Elevasi hanya di panel hasil: itu jawaban yang dibaca (R-12). */
-.readout { box-shadow: 0 2px 0 var(--line), 0 14px 28px -22px rgba(0, 0, 0, .8); }
+.readout { box-shadow: 0 2px 0 var(--line), 0 14px 28px -22px var(--shadow); }
 
 label { display: block; font-weight: 700; font-size: .95rem; margin: 1rem 0 .35rem; }
 label:first-of-type { margin-top: 0; }
@@ -113,8 +131,9 @@ code { font-size: .85em; background: var(--code); padding: .1em .4em; border-rad
 .log { margin-bottom: 2rem; overflow-x: auto; }
 .log-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
 .log-head h2 { margin-bottom: 0; }
-#clear { font: inherit; font-size: .88rem; min-height: 44px; padding: .5rem 1rem; background: transparent; border: 1px solid var(--line); border-radius: var(--radius-ctl); cursor: pointer; color: var(--ink); }
+#clear, #theme { font: inherit; font-size: .88rem; min-height: 44px; padding: .5rem 1rem; background: transparent; border: 1px solid var(--line); border-radius: var(--radius-ctl); cursor: pointer; color: var(--ink); }
 #clear:hover { border-color: var(--brick); color: var(--brick); }
+#theme:hover { border-color: var(--accent); color: var(--accent); }
 #hist-table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: .9rem; min-width: 34rem; }
 #hist-table th, #hist-table td { text-align: left; padding: .5rem; border-top: 1px solid var(--line); vertical-align: top; }
 #hist-table td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }

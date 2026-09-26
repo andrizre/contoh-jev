@@ -24,4 +24,5 @@ Tema gelap dipakai atas permintaan eksplisit pemilik produk (bukan default AI).
 - FAQ memakai details bawaan peramban (alasan: akordeon siap keyboard tanpa JS, tiap jawaban soal nyata pengguna bukan template).
 - Lembar soal tepat di bawah intro ringkas (alasan: pengguna langsung eksekusi tanpa scroll panjang).
 - Satu titik status menandai kondisi nyata Live/Demo (alasan: satu-satunya indikator status, tanpa glow dan denyut).
+- Saklar tema terang/gelap oleh user (alasan: R-21, tidak ada alasan merek untuk mengunci satu tema; default ikut OS, pilihan tersimpan di localStorage, kedua palet lolos AA).
 - Kebijakan gerbang (ambang skor, daftar alasan) tampil tertulis di hasil (alasan: pola harness resmi, Jev menasihati dan kode memutuskan, jejak audit terlihat user).
