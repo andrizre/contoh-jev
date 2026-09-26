@@ -33,7 +33,11 @@ git push -u origin main
 1. Struktur sudah siap: folder `public/` jadi output statis (`outputDirectory`),
    fungsi di `api/jev.js` dan `api/health.js`, tanpa dependensi npm.
 2. Di vercel.com: Add New Project, Import repositori GitHub di atas.
-3. Framework Preset: Other. Build Command: kosongkan. Output Directory: `public`.
+3. Framework Preset: Other. PENTING: jangan pilih Node.js. Preset Node membuat
+   Vercel memakai `public/app.js` sebagai entry server sehingga fungsi api/
+   tidak terbangun (gejala: `Using public/app.js as the root entrypoint` di
+   Build Logs dan semua /api/* 500 `document is not defined`).
+   Build Command: kosongkan. Output Directory: `public`.
 4. Environment Variables: tambah `OPENCODE_API_KEY` (dan opsional `JEV_MODEL`).
 5. Deploy. Smoke test: buka situs, tekan contoh Ibu kota, pastikan pemenang A Tokyo.
 
