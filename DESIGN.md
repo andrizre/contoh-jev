@@ -20,8 +20,9 @@ Tema gelap dipakai atas permintaan eksplisit pemilik produk (bukan default AI).
 - Bayangan: hanya panel hasil yang terangkat (alasan elevasi: itu jawaban yang dibaca). Sisanya datar.
 - Motion: hanya jarum meter dan lebar bar (alasan: menunjukkan perubahan nilai). Tanpa loop, tanpa confetti.
 - CTA "Nilai jawaban": spesifik untuk aksi produk, bukan template generik.
-- Header tidak lengket di HP (alasan: header lengket memakan seperempat layar kecil). Tetap lengket di desktop. Navigasi HP boleh geser horizontal satu baris.
+- Header ramping nempel di semua ukuran (alasan: judul dan saklar tema selalu terjangkau; di HP dipadatkan dua baris tipis agar tidak memakan layar, teks status disembunyikan visual tapi tetap ada untuk pembaca layar).
 - FAQ memakai details bawaan peramban (alasan: akordeon siap keyboard tanpa JS, tiap jawaban soal nyata pengguna bukan template).
+- Tabel hasil menumpuk per opsi di HP (alasan: 4 kolom tabel memaksa geser samping; versi tumpuk berlabel Relatif/Mutlak, tanpa scroll horizontal).
 - Lembar soal tepat di bawah intro ringkas (alasan: pengguna langsung eksekusi tanpa scroll panjang).
 - Satu titik status menandai kondisi nyata Live/Demo (alasan: satu-satunya indikator status, tanpa glow dan denyut).
 - Saklar tema terang/gelap oleh user (alasan: R-21, tidak ada alasan merek untuk mengunci satu tema; default ikut OS, pilihan tersimpan di localStorage, kedua palet lolos AA).
