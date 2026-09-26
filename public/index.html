@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Soal Pilihan Ganda: pilihan mana yang paling tepat</title>
+<meta name="description" content="Guru menulis pernyataan dan pilihan jawaban. Jev menilai probabilitas tiap pilihan dan menunjuk yang paling tepat." />
+<meta name="theme-color" content="#f7f3ea" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230f6b5c'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='36' font-weight='bold' fill='white' text-anchor='middle'%3EJ%3C/text%3E%3C/svg%3E" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<a class="skip" href="#uji">Lewati ke alat penilai</a>
+
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <p class="brand">Soal <span>Pilihan Ganda</span></p>
+    <nav aria-label="Navigasi halaman">
+      <a href="#uji">Soal</a>
+      <a href="#pola">Cara nilai</a>
+      <a href="#riwayat">Catatan</a>
+    </nav>
+    <p class="status"><span id="dot" class="dot" aria-hidden="true"></span><span id="modeText">Memeriksa sambungan…</span></p>
+  </div>
+  <div class="rule" aria-hidden="true"></div>
+</header>
+
+<main class="wrap">
+  <section class="intro">
+    <h1>Tulis soal, Jev menunjuk jawaban paling tepat.</h1>
+    <p>Seperti guru membuat soal pilihan ganda: tulis pernyataan, tambah pilihan jawaban
+      sebanyak yang perlu, lalu tekan nilai. Tiap pilihan dapat probabilitas, yang tertinggi
+      ditunjuk sebagai jawaban paling tepat.</p>
+    <ul class="features">
+      <li>2 sampai 8 pilihan dinamis</li>
+      <li>Dua angka per pilihan: relatif dan mutlak</li>
+      <li>Riwayat tersimpan di peramban</li>
+    </ul>
+  </section>
+
+  <div class="bench">
+    <section class="ledger" id="uji" aria-labelledby="uji-h">
+      <h2 id="uji-h">Lembar soal</h2>
+      <form id="form" novalidate>
+        <label for="q">Pernyataan atau pertanyaan</label>
+        <textarea id="q" rows="2" maxlength="500">Apa ibu kota Jepang?</textarea>
+        <div class="opts-head">
+          <span id="opts-label">Pilihan jawaban</span>
+          <button type="button" id="add">Tambah pilihan</button>
+        </div>
+        <div id="opts" role="group" aria-labelledby="opts-label"></div>
+        <p class="field-note">Minimal 2, maksimal 8 pilihan. Tiap pilihan maksimal 200 karakter.</p>
+        <button type="submit" id="go">Nilai pilihan</button>
+        <p id="err" class="err" role="alert" hidden></p>
+      </form>
+      <div class="examples">
+        <p>Contoh sekali ketuk:</p>
+        <div>
+          <button type="button" data-ex="Apa ibu kota Jepang?|Tokyo|Osaka|Kyoto|Beijing">Ibu kota</button>
+          <button type="button" data-ex="2 + 2 × 2 = ?|4|6|8">Hitungan</button>
+          <button type="button" data-ex="Saya lapar, paling tepat apa?|makan|minum|tidur|lari">Lapar</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="readout" aria-labelledby="hasil-h" aria-live="polite">
+      <h2 id="hasil-h">Hasil penilaian</h2>
+      <div id="empty">
+        <p class="meter-zero">Skala 0 sampai 100 per pilihan</p>
+        <p>Belum ada penilaian. Isi soal lalu tekan <q>Nilai pilihan</q>.</p>
+      </div>
+      <div id="loading" hidden>
+        <p class="meter-zero">Menilai…</p>
+        <p>Jev sedang membandingkan semua pilihan.</p>
+      </div>
+      <div id="result" hidden>
+        <p class="meter-zero">Jawaban paling tepat</p>
+        <p id="winner">menunggu</p>
+        <p id="conf" class="muted">keyakinan: belum dihitung</p>
+        <div class="table-scroll">
+        <table class="dist">
+          <caption>Relatif (porsi dari 100 persen) dan mutlak (peluang benar sendiri)</caption>
+          <thead><tr><th scope="col">Pilihan</th><th scope="col">Relatif</th><th scope="col">Persen</th><th scope="col">Mutlak</th></tr></thead>
+          <tbody id="bars"></tbody>
+        </table>
+        </div>
+        <p id="note" class="muted"></p>
+      </div>
+    </section>
+  </div>
+
+  <section class="how" id="pola" aria-labelledby="pola-h">
+    <h2 id="pola-h">Cara penilaian bekerja</h2>
+    <dl>
+      <div>
+        <dt>Soal jadi keadaan</dt>
+        <dd>Pernyataan dikirim sebagai keadaan. Pilihan jawaban dikirim sebagai daftar opsi pertanyaan bertipe choice.</dd>
+      </div>
+      <div>
+        <dt>Probabilitas per pilihan</dt>
+        <dd>Jev memberi angka tiap opsi yang jumlahnya 100 persen. Opsi tertinggi adalah jawaban paling tepat menurut model.</dd>
+      </div>
+      <div>
+        <dt>Dua angka per pilihan</dt>
+        <dd>Relatif: porsi pilihan dari total 100 persen, selalu ada satu pemenang. Mutlak: peluang pilihan itu benar bila dinilai sendiri, tidak dibagi dengan opsi lain. Dua pilihan bisa sama-sama 80 persen mutlak, tapi porsi relatifnya tetap terbagi.</dd>
+      </div>
+      <div>
+        <dt>Keyakinan</dt>
+        <dd>Angka keyakinan ikut ditampilkan. Bila angkanya rendah, arti sebarannya merata dan soal layak ditinjau ulang.</dd>
+      </div>
+    </dl>
+    <p class="muted">Teknis: server mengirim soal dan opsi ke
+      <code>https://opencode.ai/zen/v1/systemone</code> (model <code>jev-1.13-free</code>).
+      Kunci API tinggal di <code>.env</code> dan tidak pernah ke peramban.</p>
+  </section>
+
+  <section class="log" id="riwayat" aria-labelledby="riw-h">
+    <div class="log-head">
+      <h2 id="riw-h">Catatan penilaian</h2>
+      <button type="button" id="clear">Hapus catatan</button>
+    </div>
+    <div>
+      <p id="hist-empty" class="muted">Kosong. Setiap penilaian tercatat di sini, hanya di peramban ini.</p>
+      <table id="hist-table" hidden>
+        <caption class="sr">Daftar penilaian terdahulu</caption>
+        <thead>
+          <tr><th scope="col">Pemenang</th><th scope="col">Relatif</th><th scope="col">Mutlak</th><th scope="col">Soal</th><th scope="col">Sumber</th></tr>
+        </thead>
+        <tbody id="hist"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap foot">
+  <p>Soal Pilihan Ganda memakai model Jev milik TypeSafe AI melalui OpenCode Zen. Tanpa kunci API,
+    hasil memakai sebaran demo dan selalu berlabel demo.</p>
+  <p><a href="https://opencode.ai/zen">Dapatkan kunci OpenCode Zen</a> · <a href="https://thejevai.com/docs">Dokumentasi Jev</a></p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

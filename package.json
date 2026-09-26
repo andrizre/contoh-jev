@@ -1,0 +1,11 @@
+{
+  "name": "soal-pilihan-ganda-jev",
+  "version": "1.0.0",
+  "description": "Soal pilihan ganda dengan penilaian probabilitas model Jev via OpenCode Zen",
+  "type": "commonjs",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "license": "MIT"
+}

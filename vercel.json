@@ -1,0 +1,7 @@
+{
+  "outputDirectory": "public",
+  "functions": {
+    "api/jev.js": { "maxDuration": 30 },
+    "api/health.js": { "maxDuration": 10 }
+  }
+}
