@@ -23,6 +23,9 @@ Tema gelap dipakai atas permintaan eksplisit pemilik produk (bukan default AI).
 - Header ramping nempel di semua ukuran (alasan: judul dan saklar tema selalu terjangkau; di HP dipadatkan dua baris tipis agar tidak memakan layar, teks status disembunyikan visual tapi tetap ada untuk pembaca layar).
 - FAQ memakai details bawaan peramban (alasan: akordeon siap keyboard tanpa JS, tiap jawaban soal nyata pengguna bukan template).
 - Tabel hasil menumpuk per opsi di HP (alasan: 4 kolom tabel memaksa geser samping; versi tumpuk berlabel Relatif/Mutlak, tanpa scroll horizontal).
+- Hasil per opsi berupa kartu dual-bar (alasan: PDF analisis Gemini, tabel angka mentah berat kognitif; bar relatif aksen netral, bar mutlak warna status ambang 70/40, pemenang berbingkai plus label teks bukan emoji).
+- Badge mode di dekat tombol nilai (alasan: status header sering luput dari perhatian saat fokus mengisi form).
+- Ekspor salin/JSON/CSV dan tempel-pecah opsi per baris (alasan: permintaan eksplisit PDF analisis; semua perilaku nyata dengan umpan balik).
 - Lembar soal tepat di bawah intro ringkas (alasan: pengguna langsung eksekusi tanpa scroll panjang).
 - Satu titik status menandai kondisi nyata Live/Demo (alasan: satu-satunya indikator status, tanpa glow dan denyut).
 - Saklar tema terang/gelap oleh user (alasan: R-21, tidak ada alasan merek untuk mengunci satu tema; default ikut OS, pilihan tersimpan di localStorage, kedua palet lolos AA).
